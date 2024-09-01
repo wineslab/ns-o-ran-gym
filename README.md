@@ -20,19 +20,38 @@ This framework allows new environments to be easy to create and test, since the 
 
 ## References
 
-If you use ns-O-RAN with/without the Gym Environment, please reference the following paper:
+If you use the Gymnasium Base Environment, please reference the following paper:
 
-TDB
+```
+@INPROCEEDINGS{10619796,
+  author={Lacava, Andrea and Pietrosanti, Tommaso and Polese, Michele and Cuomo, Francesca and Melodia, Tommaso},
+  booktitle={2024 IFIP Networking Conference (IFIP Networking)}, 
+  title={Enabling Online Reinforcement Learning Training for Open RAN}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={577-582},
+  keywords={Training;Cellular networks;Open RAN;Computer architecture;Software;Quality of experience;Telemetry;Open RAN;ns-3;deep reinforcement learning;artificial intelligence;gymnasium},
+  doi={10.23919/IFIPNetworking62109.2024.10619796}}
+```
 
-If you use the TrafficSteering Environment, please reference the following paper:
+If you use ns-O-RAN without the Gym Environment, please reference the following paper:
 
-TDB
+```
 
-- Framework presentation https://openrangym.com/ran-frameworks/ns-o-ran
-- paper of the Framework: https://dl.acm.org/doi/abs/10.1145/3592149.3592161
-- journal about Traffic Steering with ns-O-RAN https://ieeexplore.ieee.org/document/10102369
-- tutorial OSC RIC version E ns-O-RAN connection  https://www.nsnam.org/tutorials/consortium23/oran-tutorial-slides-wns3-2023.pdf
-- tutorial Colosseum RIC (i.e., OSC RIC bronze reduced) ns-O-RAN  https://openrangym.com/tutorials/ns-o-ran
-- recording of the tutorial OSC RIC version E done at the WNS3 2023 https://vimeo.com/867704832
+```
+
+If you use the TrafficSteering Environment with no changes, please reference the following paper:
+
+```
+
+```
+
+- Framework presentation: https://openrangym.com/ran-frameworks/ns-o-ran
+- Paper of the Framework: https://dl.acm.org/doi/abs/10.1145/3592149.3592161
+- Journal about Traffic Steering with ns-O-RAN: https://ieeexplore.ieee.org/document/10102369
+- tutorial OSC RIC version E ns-O-RAN connection: https://www.nsnam.org/tutorials/consortium23/oran-tutorial-slides-wns3-2023.pdf
+- tutorial Colosseum RIC (i.e., OSC RIC bronze reduced) ns-O-RAN: https://openrangym.com/tutorials/ns-o-ran
+- recording of the tutorial OSC RIC version E done at the WNS3 2023: https://vimeo.com/867704832
 
 
