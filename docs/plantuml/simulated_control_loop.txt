@@ -1,0 +1,31 @@
+@startuml
+participant "Agent" as Agent
+participant "Environment" as Env
+participant "ns-O-RAN" as NsOran
+participant "Datalake" as Datalake
+participant "ActionController" as ActionController
+
+Agent -> Env: env.reset()
+Env -> Datalake: create
+Env -> ActionController: create
+Env -> NsOran: start_simulation
+
+NsOran -> Datalake: new_state
+
+Datalake -> Env: initial_state_kpms
+Env -> Agent: initial_state_kpms
+
+loop while done is not True
+    Agent -> Env: env.step(action)
+    Env -> ActionController: generate_control_action(action)
+    ActionController -> NsOran: implement_action(action)
+    NsOran -> Datalake: new_state
+    Datalake -> Env: new_state
+    Env -> Agent: new_state, reward, done
+end loop
+
+Agent -> Env: env.close()
+Env -> NsOran: close()
+Env -> Datalake: close()
+Env -> ActionController: close()
+@enduml

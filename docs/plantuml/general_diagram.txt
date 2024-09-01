@@ -1,0 +1,116 @@
+@startuml
+!theme mars
+skinparam backgroundColor transparent
+left to right direction
+skinparam linetype ortho
+!define AbstractClass class
+hide empty members
+hide circles
+
+AbstractClass NsOranEnv {
+  -- Attributes --
+  + metadata: dict
+  + ns3_path: str
+  + scenario: str
+  + scenario_configuration: dict
+  + output_folder: str
+  + optimized: bool
+  + skip_configuration: bool
+  + sim_path: str
+  + sim_process: subprocess.Popen
+  + metricsReadySemaphore: Semaphore
+  + controlSemaphore: Semaphore
+  + control_header: list
+  + log_file: str
+  + control_file: str
+  + is_open: bool
+  + action_controller: ActionController
+  + datalake: Datalake
+
+  -- Methods --
+  + __init__(render_mode: str=None, ns3_path: str=None, scenario: str=None, 
+            scenario_configuration: dict=None, output_folder: str=None, 
+            optimized: bool=True, skip_configuration: bool=False, control_header: list = [], log_file: str = '', control_file: str = '')
+  + setup_sim()
+  + configure_and_build_ns3()
+  + start_sim()
+  + _set_nonblocking(fileobj)
+  + read_streams()
+  + is_simulation_over() -> bool
+  + reset(seed: int | None = None, options: dict[str, Any] | None = None)
+  + step(action: object) -> tuple[object, SupportsFloat, bool, bool, dict[str, Any]]
+  + _fill_datalake()
+  + _compute_action(action) -> list[tuple] <<abstract>>
+  + _get_obs() -> list <<abstract>>
+  + _compute_reward() <<abstract>>
+  + _fill_datalake_usecase() <<abstract>>
+  + _get_info() -> dict
+  + render()
+  + close()
+  + __del__()
+}
+
+class TrafficSteeringEnv {
+  - columns_state: list
+  - columns_reward: list
+  - observation_space: spaces.Box
+  - action_space: spaces.MultiDiscrete
+  - observations: list
+  - reward: float
+  + __init__(ns3_path: str, scenario_configuration: dict, output_folder: str, optimized: bool)
+  + _compute_action(action) : list(tuple)
+  + _fill_datalake_usecase() : void
+  + _get_obs() : list
+  + _compute_reward() : float
+}
+
+
+class ActionController {
+  -- Attributes --
+  + directory: str
+  + log_filename: str
+  + control_filename: str
+
+  -- Methods --
+  + __init__(sim_path: str, log_filename: str, control_filename: str, header: dict)
+  + create_control_action(timestamp: int, actions: list[tuple])
+}
+
+class Datalake {
+    -lte_cu_cp_keys: dict
+    -gnb_cu_cp_keys: dict
+    -lte_cu_up_keys: dict
+    -gnb_cu_up_keys: dict
+    -du_keys: dict
+    -debug: bool
+    -simulation_dir: str
+    -num_ues: int
+    -database_path: str
+    -tables: dict
+    -connection: sqlite3.Connection
+    -cursor: sqlite3.Cursor
+
+    +__init__(simulation_dir: str, num_ues_gnb: int, debug: bool)
+    +acquire_connection() : bool
+    +release_connection() : bool
+    +sanitize_column_name(column_name: str) : str
+    +_create_table(table_name: str, columns: dict)
+    +entry_exists(table_name: str, timestamp: int, ue_imsi_complete: int) : bool
+    +insert_lte_cu_cp(data: dict)
+    +insert_gnb_cu_cp(data: dict)
+    +insert_lte_cu_up(data: dict)
+    +insert_gnb_cu_up(data: dict)
+    +insert_du(data: dict)
+    +insert_data(table_name: str, data: dict)
+    +read_table(table_name: str) : list
+    +read_kpms(timestamp: int, required_kpms: list) : list
+    +extract_cellId(filepath: str) : int
+    +__del__()
+}
+
+
+NsOranEnv --> ActionController
+NsOranEnv --> Datalake
+TrafficSteeringEnv --> NsOranEnv
+
+@enduml

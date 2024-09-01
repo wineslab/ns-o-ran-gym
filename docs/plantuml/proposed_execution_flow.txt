@@ -1,0 +1,43 @@
+@startuml
+!theme mars
+start
+
+partition Main
+  :Parse Arguments;
+  :launchCampaign;
+}
+
+partition SemCallback
+  :Listen for Events;
+  fork 
+  :on_run_start() triggered;
+  :create Agent with reset()'s observation;
+  fork again 
+  :on_run_end() triggered; 
+  :notify environment;
+  kill
+  end merge
+}
+
+while(not (truncated or terminated)) is (true)
+
+partition Agent{
+  :evaluate Action; 
+  :generate Control;
+  :step();
+}
+
+
+
+partition Environment (step){
+  floating note: requires \nsynchronization 
+  :write agent Action; 
+  :wait for simulation;
+  :read new metrics and control file;
+  :update Datalake;
+  :feedback new Observation;
+}
+
+endwhile
+stop
+@enduml
