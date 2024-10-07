@@ -9,7 +9,6 @@ import os
 import glob
 import csv
 from posix_ipc import Semaphore, O_CREAT, BusyError
-import sem
 from .action_controller import ActionController
 from .datalake import SQLiteDatabaseAPI
 from importlib.machinery import SourceFileLoader

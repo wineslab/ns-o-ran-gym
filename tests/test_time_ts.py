@@ -20,7 +20,7 @@ if __name__ == '__main__':
     traffic_models = [0, 1, 2, 3]
     indication_periodicity = scenario_configuration["indicationPeriodicity"][0]
 
-    output_folder = '/workspace/ns-o-ran-network-gym/output'
+    output_folder = '/workspace/ns-o-ran-gymnasium/output'
     num_steps = 1000
     offset_step = 0.1 # used only for visualization purposes
 

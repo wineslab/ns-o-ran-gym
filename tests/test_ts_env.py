@@ -24,10 +24,10 @@ if __name__ == '__main__':
 
     scenario_configuration = json.loads(params)
 
-    output_folder = '/workspace/ns-o-ran-network-gym/output'
-    
+    output_folder = '/workspace/ns-o-ran-gymnasium/output'
+
     print('Creating TS Environment')
-    env = TrafficSteeringEnv(ns3_path='/workspace/ns3-mmwave-oran', scenario_configuration=scenario_configuration, output_folder=output_folder, optimized=False)
+    env = TrafficSteeringEnv(ns3_path='/workspace/ns3-mmwave-oran', scenario_configuration=scenario_configuration, output_folder=output_folder, optimized=False, verbose=True)
 
     num_steps = 1000
 

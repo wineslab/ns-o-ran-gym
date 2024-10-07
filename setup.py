@@ -15,5 +15,8 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
+    extras_require={
+        'test': ['tests'],
+    },
     python_requires='>=3.6',
 )

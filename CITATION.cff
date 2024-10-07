@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Lacava"
+    given-names: "Andrea"
+  - family-names: "Pietrosanti"
+    given-names: "Tommaso"
+  - family-names: "Polese"
+    given-names: "Michele"
+  - family-names: "Cuomo"
+    given-names: "Francesca"
+  - family-names: "Melodia"
+    given-names: "Tommaso"
+title: "Enabling Online Reinforcement Learning Training for Open RAN"
+doi: 10.23919/IFIPNetworking62109.2024.10619796
+url: "https://doi.org/10.23919/IFIPNetworking62109.2024.10619796"
+
