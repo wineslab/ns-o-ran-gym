@@ -58,7 +58,7 @@ series = {WNS3 '23}
 }
 ```
 
-If you use the TrafficSteering Environment with no changes, please reference the following paper:
+If you use the TrafficSteering Environment, please reference the following paper:
 
 ```
 @ARTICLE{10102369,
