@@ -1,0 +1,29 @@
+@startuml
+!theme mars
+    hide circles
+    class BaseEnv{
+        configuration json
+        sim_path string
+        __init__()
+        step()
+        reset()
+        close()
+        _fill_datalake()
+        _get_obs()
+        _compute_reward()
+        load_configuration()
+    }
+    class QoSEnv{
+        env_specific_attributes
+        extract_cellid()
+    }
+    class ActionController{
+        directory string
+        log_filename string
+        control_filename string
+        header dict
+        create_control_action()
+    }
+
+QoSEnv -> BaseEnv
+@enduml
