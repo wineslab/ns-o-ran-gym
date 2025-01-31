@@ -1,0 +1,19 @@
+{
+  "heuristicType":[-1],
+  "simTime":[10],
+  "ues":[3],
+  "RngRun":[555],
+  "configuration":[0],
+  "trafficModel":[3],
+  "numberOfRaPreambles":[40],
+  "bsOn":[5],
+  "bsIdle":[0],
+  "bsSleep":[0],
+  "bsOff":[2],
+  "reducedPmValues":[0],
+  "outageThreshold":[-5.0],
+  "handoverMode":["DynamicTtt"],
+  "indicationPeriodicity":[0.100],
+  "controlFileName":["es_actions_for_ns3.csv"],
+  "useSemaphores": [1]
+}

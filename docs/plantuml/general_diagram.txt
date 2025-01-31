@@ -43,6 +43,7 @@ AbstractClass NsOranEnv {
   + _compute_action(action) -> list[tuple] <<abstract>>
   + _get_obs() -> list <<abstract>>
   + _compute_reward() <<abstract>>
+  + _init_datalake_usecase() <<abstract>>
   + _fill_datalake_usecase() <<abstract>>
   + _get_info() -> dict
   + render()
@@ -64,6 +65,38 @@ class TrafficSteeringEnv {
   + _compute_reward() : float
 }
 
+class EnergySavingEnv {
+  - gnb_state_keys: dict
+  - folder_name: str
+  - ns3_simulation_time: int
+  - columns_state: list[str]
+  - columns_reward: list[str]
+  - action_list: list[int]
+  - cellList: list[int]
+  - observations: list
+  - cells_states: dict
+  - cell_timestamp_state_dict: dict
+  - Cf: float
+  - lambdaf: float
+  - time_factor: float
+  - heur: bool
+  - num_steps: int
+  - previous_inverted_action: str
+  + __init__(ns3_path: str, scenario_configuration: dict, output_folder: str, optimized: bool, do_heuristic: bool = True)
+  + _compute_action(action) : list[list[int]]
+  + _update_cell_states() : void
+  + _get_obs() : list[tuple]
+  + _compute_reward() : float
+  + _init_datalake_usecase() : void
+  + _fill_datalake_usecase() : void
+  + ue_centric_tocell_centric(df: pd.DataFrame) : pd.DataFrame
+  + rename_columns(columns: list, cell_no: int) : list
+  + offline_training_preprocessing(df: pd.DataFrame) : pd.DataFrame
+  + add_eekpi_qpsk_16_64qam_sum_and_ratio(df: pd.DataFrame) : pd.DataFrame
+  + getRLFCounter(df: pd.DataFrame, columns: list) : (pd.DataFrame, list)
+  + es_on_cost_calculation(cell_df: pd.DataFrame) : pd.DataFrame
+  + bs_states_list() : list[int]
+}
 
 class ActionController {
   -- Attributes --
@@ -112,5 +145,6 @@ class Datalake {
 NsOranEnv --> ActionController
 NsOranEnv --> Datalake
 TrafficSteeringEnv --> NsOranEnv
+EnergySavingEnv --> NsOranEnv
 
 @enduml
