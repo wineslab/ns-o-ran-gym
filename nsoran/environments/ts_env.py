@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 from nsoran.base.ns_env import NsOranEnv 
 from gymnasium import spaces
 import logging
@@ -48,7 +47,8 @@ class TrafficSteeringEnv(NsOranEnv):
             if targetCellId != 0: # and 
                 # Once we are in this condition, we need to transform the action from the one of gym to the one of ns-O-RAN
                 action_list.append((ueId + 1, targetCellId + 2))
-
+        if self.verbose:
+            logging.debug(f'Action list {action_list}')
         return action_list
 
     def _fill_datalake_usecase(self):
@@ -81,7 +81,7 @@ class TrafficSteeringEnv(NsOranEnv):
         current_kpms = self.datalake.read_kpms(self.last_timestamp, self.columns_reward)
 
         # If this is the first iteration we do not have the previous kpms
-        if(self.previous_kpms is None):
+        if self.previous_kpms is None:
             if self.verbose:
                 logging.debug(f'Starting first reward computation at timestamp {self.last_timestamp}')
             self.previous_timestamp = self.last_timestamp - (self.scenario_configuration['indicationPeriodicity'] * 1000)

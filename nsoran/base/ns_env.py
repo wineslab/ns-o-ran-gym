@@ -14,6 +14,7 @@ from .datalake import SQLiteDatabaseAPI
 from importlib.machinery import SourceFileLoader
 import types
 import subprocess
+import sem
 
 class NsOranEnv(gym.Env):
     """Base abstract class for a ns-O-RAN enviroment compliant with Gymnasium"""
@@ -92,9 +93,7 @@ class NsOranEnv(gym.Env):
             'DYLD_LIBRARY_PATH': library_path}
         
         # Configure and build ns-3
-        # print('Start configuration')
         self.configure_and_build_ns3()
-        # print('Configuration complete')
 
         # ns-3's build status output is used to get the executable path for the
         # specified script.
@@ -193,7 +192,7 @@ class NsOranEnv(gym.Env):
         """
         if self.is_open:
             raise ValueError('The environment is open and a new start_sim has been called.')
-
+   
         self.is_open = True
         # We may need to explicit the default values as well here, but for the moment we only change the values of the configuration
         # A good way would be to explict such values is to port here sem.manager.CampaignManager::check_and_fill_parameters
@@ -227,7 +226,9 @@ class NsOranEnv(gym.Env):
             raise ValueError('Missing the list of values to perform control.')
 
         self.action_controller = ActionController(self.sim_path, self.log_file, self.control_file, self.control_header)
-        self.datalake = SQLiteDatabaseAPI(self.sim_path, num_ues_gnb=self.sim_result['params']['ues'])
+        self.datalake = SQLiteDatabaseAPI(self.sim_path, num_ues_gnb=self.sim_result['params']['ues'], debug=False)
+        
+        self._init_datalake_usecase()
 
         ### End Datalake and Action Controller ###
 
@@ -238,10 +239,6 @@ class NsOranEnv(gym.Env):
         self.metricsReadySemaphore = Semaphore(nameMetricsReadySemaphore, O_CREAT, 0)
         self.controlSemaphore = Semaphore(nameControlSemaphore, O_CREAT, 0)
         self.last_timestamp = 0
-
-        # print()
-        # print(nameControlSemaphore)
-        # print(nameMetricsReadySemaphore)
         
         ### End create the Semaphores ###
         
@@ -343,7 +340,7 @@ class NsOranEnv(gym.Env):
         else:
             # Set here all the default settings
             self.return_info = False
-
+            
         # The simulation is started, thus we have to wait to the first set of observations
         self.metricsReadySemaphore.acquire()
         self._fill_datalake()
@@ -359,7 +356,7 @@ class NsOranEnv(gym.Env):
         if not self.is_simulation_over():
             # Take a step in the environment based on the given action
             actions = self._compute_action(action)
-
+            
             # Update the environment state and calculate the reward
             self.action_controller.create_control_action(self.last_timestamp, actions)
             # the action was written: notify the environment
@@ -439,10 +436,17 @@ class NsOranEnv(gym.Env):
     def _compute_reward(self):
         """Helper function that returns the curret reward function according to the use case"""
         raise NotImplementedError('_compute_reward() must be implemented for the specific use case')
+
+    @abstractmethod
+    def _init_datalake_usecase(self):
+        """Function to be implemented by children classes to initialize the additional datalake 
+            This function is optional, thus it does not raise an exception.
+        """
+        pass
     
     @abstractmethod
     def _fill_datalake_usecase(self):
-        """Function to be implemented by children to add more data
+        """Function to be implemented by children to add more data to the datalake
             This function is optional, thus it does not raise an exception.
         """
         pass

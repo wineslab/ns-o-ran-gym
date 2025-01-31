@@ -51,6 +51,22 @@ class TrafficSteeringEnv {
   + _compute_reward(): float
 }
 
+class EnergySavingEnv {
+  - columns_state: list[str]
+  - columns_reward: list[str]
+  - action_list: list[int]
+  + __init__(ns3_path: str, scenario_configuration: dict, 
+  output_folder: str, optimized: bool, 
+   do_heuristic: bool = True)
+  + _compute_action(action) : list[list[int]]
+  + _update_cell_states(): void
+  + _get_obs(): list[tuple]
+  + _compute_reward() : float
+  + _init_datalake_usecase(): void
+  + _fill_datalake_usecase(): void
+  + offline_training_preprocessing(df: 
+    pd.DataFrame): pd.DataFrame
+}
 
 class ActionController {
   -- Attributes --
@@ -89,5 +105,5 @@ class Datalake {
 NsOranEnv --> ActionController
 NsOranEnv --> Datalake
 TrafficSteeringEnv --> NsOranEnv
-
+EnergySavingEnv --> NsOranEnv
 @enduml

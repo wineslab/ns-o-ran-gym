@@ -10,10 +10,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Select the environment")
     args = parser.parse_args()
 
-    # pd.set_option("display.max_rows", None, "display.max_columns", None)
-    # pd.set_option('expand_frame_repr', False)
-
-    configuration_path = './scenario_configurations/ts_use_case.json'
+    configuration_path = '../scenario_configurations/ts_use_case.json'
 
     try:
         with open(configuration_path) as params_file:
