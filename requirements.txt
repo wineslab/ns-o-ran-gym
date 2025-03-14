@@ -1,6 +1,0 @@
-gymnasium==0.29.0
-posix-ipc==1.1.1
-typing==3.7.4.3
-pandas==2.2.3
-numpy==2.1.1
-sem==0.3.9.1

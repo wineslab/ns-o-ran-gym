@@ -1,7 +1,7 @@
 from typing_extensions import override
 import numpy as np
 import pandas as pd
-from nsoran.base.ns_env import NsOranEnv 
+from nsoran.ns_env import NsOranEnv 
 import pandas as pd
 import glob
 import csv

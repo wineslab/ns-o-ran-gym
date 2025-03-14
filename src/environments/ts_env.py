@@ -1,7 +1,8 @@
-import numpy as np
-from nsoran.base.ns_env import NsOranEnv 
+from nsoran.ns_env import NsOranEnv 
 from gymnasium import spaces
 import logging
+
+import numpy as np
 
 class TrafficSteeringEnv(NsOranEnv):
     def __init__(self, ns3_path:str, scenario_configuration:dict, output_folder:str, optimized:bool, verbose=False, time_factor=0.001, Cf=1.0, lambdaf=0.1):
@@ -34,7 +35,7 @@ class TrafficSteeringEnv(NsOranEnv):
         self.handovers_dict = dict()
         self.verbose = verbose
         if self.verbose:
-            logging.basicConfig(filename='reward_ts.log', level=logging.DEBUG, format='%(asctime)s - %(message)s')
+            logging.basicConfig(filename='./reward_ts.log', level=logging.DEBUG, format='%(asctime)s - %(message)s')
         self.time_factor = time_factor
         self.Cf = Cf
         self.lambdaf = lambdaf

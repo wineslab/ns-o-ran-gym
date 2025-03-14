@@ -236,8 +236,8 @@ class NsOranEnv(gym.Env):
 
         nameMetricsReadySemaphore = "/sem_metrics_" + self.sim_path.split('/')[-1]
         nameControlSemaphore = "/sem_control_" + self.sim_path.split('/')[-1]
-        self.metricsReadySemaphore = Semaphore(nameMetricsReadySemaphore, O_CREAT, 0)
-        self.controlSemaphore = Semaphore(nameControlSemaphore, O_CREAT, 0)
+        self.metricsReadySemaphore = Semaphore(nameMetricsReadySemaphore, O_CREAT, mode=0o660, initial_value=0)
+        self.controlSemaphore = Semaphore(nameControlSemaphore, O_CREAT, mode=0o660, initial_value=0)
         self.last_timestamp = 0
         
         ### End create the Semaphores ###

@@ -8,8 +8,7 @@ on:
 jobs:
   mirror:
     runs-on: ubuntu-latest
-    env:
-      MIRROR_PUSH: ${{ secrets.MIRROR_PUSH }}
+    if: github.repository != 'wineslab/ns-o-ran-gym'
 
     steps:
     - name: Checkout
@@ -26,12 +25,8 @@ jobs:
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
 
-    - name: Conditional Push
+    - name: Push to Public Repository
       run: |
-        if [ "${{ env.MIRROR_PUSH }}" == "true" ]; then
-          echo "MIRROR_PUSH is set to true, pushing to public repository..."
-          git remote add public git@github.com:wineslab/ns-o-ran-gym-environment.git
-          git push public main:main --force
-        else
-          echo "MIRROR_PUSH is not set to true, no action taken."
-        fi
+        echo "Pushing to public repository..."
+        git remote add public git@github.com:wineslab/ns-o-ran-gym.git
+        git push public main:main --force

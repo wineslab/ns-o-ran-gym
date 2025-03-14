@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nsoran"
+dynamic = ["version"]
+description = 'Gymnasium environment for ns-O-RAN.'
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["gymnasium", "gym", "ns-3", "o-ran", "5g", "ns-O-RAN"]
+authors = [
+  { name = "Andrea Lacava", email = "thecave003@gmail.com" },
+  { name = "Tommaso Pietrosanti", email = "pietrosantitommaso@protonmail.com" }
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+
+dependencies =  [
+  "gymnasium==0.29.0",
+  "posix-ipc==1.1.1",
+  "typing==3.7.4.3",
+  "pandas==2.2.3",
+  "numpy==2.1.1",
+  "sem==0.3.9.1"
+]
+
+[project.urls]
+Homepage = "https://openrangym.com/ran-frameworks/ns-o-ran"
+Package = "https://pypi.org/project/nsoran/"
+Source = "https://github.com/wineslab/ns-o-ran-gym"
+"Bug Tracker" = "https://github.com/wineslab/ns-o-ran-gym/issues"
+
+[tool.hatch.version]
+path = "VERSION"
+pattern = "(?P<version>\\d+\\.\\d+\\.\\d+)"
+
+[tool.hatch.build.targets.wheel]
+packages = ['src/nsoran', 'src/environments']
+sources = ["src"]
