@@ -1,0 +1,5 @@
+include VERSION
+include requirements.txt
+include README.md
+include_package_data=True 
+recursive-include nsoran/environments/scenario_configurations *

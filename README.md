@@ -1,10 +1,25 @@
-# Gymnasium environment for ns-o-ran
+# A Gymnasium Environment for ns-O-RAN
 
 This repository contains a package for a [gymnasium](https://gymnasium.farama.org/) based reinforcement learning environment for the 5G O-RAN architecture through the [`ns-O-RAN`](https://openrangym.com/ran-frameworks/ns-o-ran) simulator.
 
+## Installation
+
+Clone the repository
+
+```
+hatch build
+pip3 install dist/*.tar.gz
+```
+
+A published version of the package is available:
+
+```
+pip3 install nsoran
+```
+
 ## An overview
 
-At a high level: the system can be viewed through its different parts as divided in the `nsoran` folder:
+At a high level: the system can be viewed through its different parts:
 
 + The `base` folder contains the abstract class `NsOranEnv`, as well as the two utility classes: `ActionController` and `Datalake`. `NsOranEnv` deals with the communication with the agent and the underlying simulation, `ActionController` writes the agent's action to a file shared with the simulation and `Datalake` acts as a wrapper to an *SQLite* database used to store the *KPMs* (*Key Performance Metrics*).
 + The `environments` folder contains `TrafficSteeringEnv` and `EnergySavingEnv`, environments derived from `NsOranEnv`, implementing the Traffic Steering and Energy Saving use case
@@ -18,7 +33,7 @@ Briefly, every new environment that is built on NsOranEnv should provide a json 
 + `_compute_action()`: converts the agent’s action defined in gym into the format required by ns-O-RAN,
 
 Additionally, `_init_datalake_usecase()` and `_fill_datalake_usecase()`  may be implemented to capture additional data from ns-O-RAN and store it in the Datalake.
-A full example can be found on `EnergySavingEnv`, which extends `NsOranEnv` for the O-RAN Energy Saving use case. For specific details on how each abstract method should be extended by new environments see the `docs/` and `CITATIONS`.
+A full example can be found on `EnergySavingEnv`, which extends `NsOranEnv` for the O-RAN Energy Saving use case. For specific details on how each abstract method should be extended by new environments see the `docs/` and `CITATION.cff`.
 
 ![](./docs/environment.svg)
 

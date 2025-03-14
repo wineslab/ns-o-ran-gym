@@ -1,17 +1,30 @@
 import argparse
 import json
-from nsoran.environments.es_env import EnergySavingEnv
-
+from environments.es_env import EnergySavingEnv
 
 if __name__ == '__main__':
     #######################
-    # Parse data #
+    # Parse arguments #
     #######################
-    parser = argparse.ArgumentParser(description="Select the environment")
+    parser = argparse.ArgumentParser(description="Run the energy saving environment")
+    parser.add_argument("--config", type=str, default="src/environments/scenario_configurations/es_use_case.json",
+                        help="Path to the configuration file")
+    parser.add_argument("--output_folder", type=str, default="output",
+                        help="Path to the output folder")
+    parser.add_argument("--ns3_path", type=str, default="/workspace/ns3-mmwave-oran",
+                        help="Path to the ns-3 mmWave O-RAN environment")
+    parser.add_argument("--num_steps", type=int, default=1000,
+                        help="Number of steps to run in the environment")
+    parser.add_argument("--optimized", action="store_true",
+                        help="Enable optimization mode")
+
     args = parser.parse_args()
 
-    # Configuration scenario values
-    configuration_path = '../scenario_configurations/es_use_case.json'
+    configuration_path = args.config
+    output_folder = args.output_folder
+    ns3_path = args.ns3_path
+    num_steps = args.num_steps
+    optimized = args.optimized
 
     try:
         with open(configuration_path) as params_file:
@@ -22,21 +35,25 @@ if __name__ == '__main__':
 
     scenario_configuration = json.loads(params)
 
-    output_folder = '/workspace/ns-o-ran-gymnasium/output'
-    
     print('Creating ES Environment')
-    env = EnergySavingEnv(ns3_path='/workspace/ns3-mmwave-oran', scenario_configuration=scenario_configuration, output_folder=output_folder, optimized=True)
-    num_steps = 1000
+    env = EnergySavingEnv(ns3_path=ns3_path, scenario_configuration=scenario_configuration, 
+                          output_folder=output_folder, optimized=optimized)
 
+    print('Environment Created!')
+
+    print('Launch reset ', end='', flush=True)
     obs, info = env.reset()
+    print('done')
     
     print(f'First set of observations {obs}')
     print(f'Info {info}')
+
     # Action logic
-    for step in range(num_steps):
+    for step in range(2, num_steps):
         model_action = []
         cell_states_table = env.datalake.read_table('bsState')
         states_of_interest = []
+
         # Filter rows only from last timestamp
         for cell_state in cell_states_table:
             if cell_state[0] == env.last_timestamp:
