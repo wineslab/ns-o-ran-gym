@@ -46,8 +46,8 @@ class SQLiteDatabaseAPI:
         "timestamp": "INTEGER",
         "ueImsiComplete": "INTEGER",
         "cellId": "INTEGER",
-        "DRB.PdcpSduDelayDl (cellAverageLatency)": "REAL",
-        "m_pDCPBytesDL (cellDlTxVolume)": "REAL",
+        "DRB.PdcpSduDelayDl(cellAverageLatency)": "REAL",
+        "m_pDCPBytesDL(cellDlTxVolume)": "REAL",
         "DRB.PdcpSduVolumeDl_Filter.UEID (txBytes)": "REAL",
         "Tot.PdcpSduNbrDl.UEID (txDlPackets)": "REAL",
         "DRB.PdcpSduBitRateDl.UEID (pdcpThroughput)": "REAL",
@@ -284,7 +284,7 @@ class SQLiteDatabaseAPI:
 
         not_found_kpms = [kpm for found, kpm in zip(found_kpms, required_kpms) if not found]
         if not_found_kpms:
-            raise ValueError(f"Columns {not_found_kpms} not found in any table.")
+            raise ValueError(f"Column(s) {not_found_kpms} not found in any table.")
 
         # We have knowledge of what we want, let's create the query
 
@@ -373,8 +373,8 @@ if __name__ == "__main__":
                             "timestamp": 1000,
                             "ueImsiComplete": "1",
                             "cellId": 1,
-                            "DRB.PdcpSduDelayDl (cellAverageLatency)": 10,
-                            "m_pDCPBytesDL (cellDlTxVolume)": 10,
+                            "DRB.PdcpSduDelayDl(cellAverageLatency)": 10,
+                            "m_pDCPBytesDL(cellDlTxVolume)": 10,
                             "DRB.PdcpSduVolumeDl_Filter.UEID (txBytes)": 100,
                             "Tot.PdcpSduNbrDl.UEID (txDlPackets)": 100,
                             "DRB.PdcpSduBitRateDl.UEID (pdcpThroughput)": 100,
@@ -386,8 +386,8 @@ if __name__ == "__main__":
     db_api.insert_lte_cu_up({   "timestamp": 1000,
                             "ueImsiComplete": "2",
                             "cellId": 1,
-                            "DRB.PdcpSduDelayDl (cellAverageLatency)": 10,
-                            "m_pDCPBytesDL (cellDlTxVolume)": 10,
+                            "DRB.PdcpSduDelayDl(cellAverageLatency)": 10,
+                            "m_pDCPBytesDL(cellDlTxVolume)": 10,
                             "DRB.PdcpSduVolumeDl_Filter.UEID (txBytes)": 100,
                             "Tot.PdcpSduNbrDl.UEID (txDlPackets)": 100,
                             "DRB.PdcpSduBitRateDl.UEID (pdcpThroughput)": 200,

@@ -22,16 +22,16 @@ class TrafficSteeringEnv(NsOranEnv):
 
         # We need the throughput as well as the cell id to determine whether an handover occurred
         self.columns_reward = ['DRB.UEThpDl.UEID', 'nrCellId']
-        # obs_space size: (#ues_per_gnb * #gnb, #observation_columns + timestamp=1)
-        self.observation_space = spaces.Box(shape=(self.scenario_configuration['ues']*7,len(self.columns_state)+1), low=-np.inf, high=np.inf, dtype=np.float64)
         # In the traffic steering use case, the action is a combination between 
         n_gnbs = 7  # scenario one has always 7 gnbs 
         n_actions_ue = 7 # each UE can connect to a gNB identified by ID (from 2 to 8), 0 is No Action
+        # obs_space size: (# ues_per_gnb * # n_gnbs, # observation_columns + timestamp = 1)
+        self.observation_space = spaces.Box(shape=(self.scenario_configuration['ues']*n_gnbs,len(self.columns_state)+1), low=-np.inf, high=np.inf, dtype=np.float64)
         self.action_space = spaces.MultiDiscrete([n_actions_ue] * self.scenario_configuration['ues'] *  n_gnbs)
         # Stores the kpms of the previous timestamp (see compute_reward)
         self.previous_df = None
         self.previous_kpms = None
-        # Keeps track of last handover time (see compute_reward)
+        # Auxiliary functions to keep track of last handover time (see compute_reward)
         self.handovers_dict = dict()
         self.verbose = verbose
         if self.verbose:

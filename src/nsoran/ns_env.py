@@ -204,7 +204,7 @@ class NsOranEnv(gym.Env):
         self.sim_result = { 'params': {}, 'meta': {} }
         self.sim_result['params'].update(parameters)
 
-        command = [self.script_executable] + ['--%s=%s' % (param, value) for param, value in parameters.items()]
+        command = [self.script_executable] + [f'--{param}={value}' for param, value in parameters.items()]
         
         # Run from dedicated self.sim_path folder
         sim_uuid = str(uuid.uuid4())
@@ -342,7 +342,7 @@ class NsOranEnv(gym.Env):
             self.return_info = False
             
         # The simulation is started, thus we have to wait to the first set of observations
-        self.metricsReadySemaphore.acquire()
+        self._wait_data_availability(timeout=5)
         self._fill_datalake()
         
         self.terminated = False
@@ -350,6 +350,16 @@ class NsOranEnv(gym.Env):
 
         # The Action is computed in the step, thus the control semaphore is not released
         return (self._get_obs(), self.render()) if self.return_info else (self._get_obs(), {})
+
+    def _wait_data_availability(self, timeout: int = 10):
+        # Wait for the new metrics to be available
+        is_still_active = True
+        while is_still_active:
+            try:
+                self.metricsReadySemaphore.acquire(timeout=timeout)
+                break
+            except BusyError: # The timeout has elapsed, so we need to check again whether the simulation is over or not
+                is_still_active = not self.is_simulation_over()
 
     def step(self, action: object) -> tuple[object, SupportsFloat, bool, bool, dict[str, Any]]:
         # Simulation is open in Gym, but it can be terminated in ns-3
@@ -362,15 +372,7 @@ class NsOranEnv(gym.Env):
             # the action was written: notify the environment
             self.controlSemaphore.release()
             
-            # Wait for the new metrics to be available
-            is_still_active = True
-            while is_still_active:
-                try:
-                    self.metricsReadySemaphore.acquire(timeout=10)
-                    break
-                except BusyError: # The timeout has elapsed, so we need to check again whether the simulation is over or not
-                    is_still_active = not self.is_simulation_over()
-            
+            self._wait_data_availability()            
             self._fill_datalake()
         
         if self.return_info:
