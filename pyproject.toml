@@ -11,8 +11,14 @@ requires-python = ">=3.8"
 keywords = ["gymnasium", "gym", "ns-3", "o-ran", "5g", "ns-O-RAN"]
 authors = [
   { name = "Andrea Lacava", email = "thecave003@gmail.com" },
-  { name = "Tommaso Pietrosanti", email = "pietrosantitommaso@protonmail.com" }
+  { name = "Tommaso Pietrosanti", email = "pietrosantitommaso@protonmail.com" },
+  { name = "Matteo Bordin", email = "matbord97@gmail.com" }
 ]
+
+maintainers = [
+  { name = "Andrea Lacava", email = "thecave003@gmail.com" }
+]
+
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",
@@ -26,12 +32,12 @@ classifiers = [
 ]
 
 dependencies =  [
-  "gymnasium==0.29.0",
-  "posix-ipc==1.1.1",
-  "typing==3.7.4.3",
-  "pandas==2.2.3",
-  "numpy==2.1.1",
-  "sem==0.3.9.1"
+  "gymnasium>=0.29.0",
+  "posix-ipc>=1.1.1",
+  "typing>=3.7.4.3",
+  "pandas>=2.2.3",
+  "numpy>=2.1.1",
+  "sem>=0.3.9.1"
 ]
 
 [project.urls]

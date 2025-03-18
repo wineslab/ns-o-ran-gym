@@ -9,7 +9,7 @@ jobs:
   create-tag:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.set_version.outputs.version }}
+      version: ${{ steps.get_version.outputs.version }}
       tag_created: ${{ steps.set_output.outputs.tag_created }}
     steps:
       - name: Checkout repository
@@ -47,11 +47,6 @@ jobs:
           else
             echo "tag_created=false" >> $GITHUB_OUTPUT
           fi
-
-      - name: Set version output
-        id: set_version
-        run: |
-          echo "version=${{ steps.get_version.outputs.version }}" >> $GITHUB_OUTPUT
 
   build:
     name: Build distribution 📦
