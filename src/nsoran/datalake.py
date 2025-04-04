@@ -204,7 +204,9 @@ class SQLiteDatabaseAPI:
         query = f"CREATE TABLE IF NOT EXISTS {table_name} ({column_definitions})"
         self.cursor.execute(query)
         self.tables[table_name] = columns
-        # print(f"Table '{table_name}' created.")
+
+        if self.debug:
+            print(f"Table '{table_name}' created.")
 
     @lock_connection
     def entry_exists(self, table_name, timestamp, ue_imsi_complete) -> bool:
@@ -251,7 +253,8 @@ class SQLiteDatabaseAPI:
         query = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
         values = tuple(filtered_kpms.values())
         self.cursor.execute(query, values)
-        # print("Data inserted into the table.")
+        if self.debug:
+            print("Data inserted into the table.")
 
     @lock_connection
     def read_table(self, table_name):
@@ -345,12 +348,8 @@ class SQLiteDatabaseAPI:
     def __del__(self):
         if self.connection is not None:
             self.release_connection()
-            # print("Connection to the database closed.")
-        
-        if not self.debug:
-            if os.path.exists(self.database_path):
-                os.remove(self.database_path)
-                # print("Database file removed.")
+            if self.debug:
+                print("Connection to the database closed.")
 
 if __name__ == "__main__":
     simulation_dir = "./"
